@@ -3,14 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Data.Entity;
+using MigrateDBApp.Models;
 
 namespace MigrateDBApp.Controllers
 {
     public class HomeController : Controller
     {
+        UserContext db = new UserContext();
+
         public ActionResult Index()
         {
-            return View();
+            db.Users.AddRange(new List<User> 
+            {
+                new User { Name="Tom"},
+                new User { Name="Alice"}
+            });
+            db.SaveChanges();
+            return View(db.Users.ToList());
         }
 
         public ActionResult About()
